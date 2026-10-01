@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Mind</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f3ee;
+            color: #3f4946;
+        }
+
+        header {
+            background-color: #dce9e4;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .logo {
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 34px;
+            margin: 0;
+        }
+
+        .slogan {
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 35px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            font-family: Georgia, serif;
+            font-style: italic;
+        }
+
+        .descripcion {
+            text-align: center;
+            color: #69736f;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd7d3;
+            border-radius: 10px;
+            font-size: 15px;
+            background-color: #fafafa;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background-color: #7b9f94;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #668b80;
+        }
+
+        #resultado {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #edf4f1;
+            line-height: 1.6;
+        }
+
+        .nota {
+            font-size: 12px;
+            color: #707b77;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            color: #77817e;
+            font-size: 12px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1 class="logo">🐾 Pet Mind</h1>
+    <p class="slogan">Conecta · Cuida · Entiende</p>
+</header>
+
+<div class="container">
+
+    <h2>Monitorea a tu mascota</h2>
+
+    <p class="descripcion">
+        Registra sus hábitos diarios para identificar cambios importantes
+        en su bienestar.
+    </p>
+
+    <label for="nombre">Nombre de tu mascota</label>
+
+    <input
+        type="text"
+        id="nombre"
+        placeholder="Ej. Luna"
+    >
+
+    <label for="actividad">Actividad</label>
+
+    <select id="actividad">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Actividad normal.</option>
+        <option value="baja">Menos activa de lo habitual</option>
+        <option value="alta">Más activa.</option>
+    </select>
+
+    <label for="alimentacion">Alimentación</label>
+
+    <select id="alimentacion">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Comió normalmente</option>
+        <option value="baja">Comió menos.</option>
+        <option value="alta">Comió más de lo normal.</option>
+    </select>
+
+    <label for="descanso">Descanso</label>
+
+    <select id="descanso">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Descansó normalmente</option>
+        <option value="baja">Descansó menos</option>
+        <option value="alta">Descansó más de lo normal.</option>
+    </select>
+
+    <button onclick="analizarHabitos()">
+        Analizar hábitos
+    </button>
+
+    <div id="resultado"></div>
+
+</div>
+
+<footer>
+    Pet Mind · Tecnología para cuidar mejor
+</footer>
+
+<script>
+
+function analizarHabitos() {
+
+    const nombre =
+        document.getElementById("nombre").value.trim();
+
+    const actividad =
+        document.getElementById("actividad").value;
+
+    const alimentacion =
+        document.getElementById("alimentacion").value;
+
+    const descanso =
+        document.getElementById("descanso").value;
+
+    const resultado =
+        document.getElementById("resultado");
+
+
+    if (
+        nombre === "" ||
+        actividad === "" ||
+        alimentacion === "" ||
+        descanso === ""
+    ) {
+
+        resultado.style.display = "block";
+
+        resultado.innerHTML =
+        "🐾 Por favor completa todos los datos de tu mascota.";
+
+        return;
+    }
+
+
+    let cambios = 0;
+
+
+    if (actividad !== "normal") {
+        cambios++;
+    }
+
+    if (alimentacion !== "normal") {
+        cambios++;
+    }
+
+    if (descanso !== "normal") {
+        cambios++;
+    }
+
+
+    let mensaje = "";
+
+
+    if (cambios === 0) {
+
+        mensaje = `
+        <strong>💚 Sin cambios importantes</strong>
+        <br><br>
+
+        Los hábitos registrados de ${nombre}
+        se encuentran dentro de lo habitual.
+
+        Continúa registrando su actividad,
+        alimentación y descanso.
+        `;
+
+    }
+
+
+    else if (cambios === 1) {
+
+        mensaje = `
+        <strong>💛 Cambio detectado</strong>
+        <br><br>
+
+        Pet Mind detectó un cambio en los hábitos
+        registrados de ${nombre}.
+
+        Te recomendamos observar su comportamiento
+        y continuar registrando sus hábitos.
+        `;
+
+    }
+
+
+    else {
+
+        mensaje = `
+        <strong>🧡 Alerta de Pet Mind</strong>
+        <br><br>
+
+        Se detectaron varios cambios importantes
+        en los hábitos registrados de ${nombre}.
+
+        Presta atención a su comportamiento.
+        Si los cambios continúan o te preocupan,
+        considera consultar con un profesional.
+        `;
+    }
+
+
+    resultado.style.display = "block";
+
+    resultado.innerHTML =
+        mensaje +
+        `
+        <div class="nota">
+        Pet Mind es una herramienta de apoyo
+        y no sustituye la evaluación de un veterinario.
+        </div>
+        `;
+}
+
+</script>
+
+</body>
+</html<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Mind</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f3ee;
+            color: #3f4946;
+        }
+
+        header {
+            background-color: #dce9e4;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .logo {
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 34px;
+            margin: 0;
+        }
+
+        .slogan {
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 35px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            font-family: Georgia, serif;
+            font-style: italic;
+        }
+
+        .descripcion {
+            text-align: center;
+            color: #69736f;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd7d3;
+            border-radius: 10px;
+            font-size: 15px;
+            background-color: #fafafa;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background-color: #7b9f94;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #668b80;
+        }
+
+        #resultado {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #edf4f1;
+            line-height: 1.6;
+        }
+
+        .nota {
+            font-size: 12px;
+            color: #707b77;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            color: #77817e;
+            font-size: 12px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1 class="logo">🐾 Pet Mind</h1>
+    <p class="slogan">Conecta · Cuida · Entiende</p>
+</header>
+
+<div class="container">
+
+    <h2>Monitorea a tu mascota</h2>
+
+    <p class="descripcion">
+        Registra sus hábitos diarios para identificar cambios importantes
+        en su bienestar.
+    </p>
+
+    <label for="nombre">Nombre de tu mascota</label>
+
+    <input
+        type="text"
+        id="nombre"
+        placeholder="Ej. Luna"
+    >
+
+    <label for="actividad">Actividad</label>
+
+    <select id="actividad">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Actividad normal</option>
+        <option value="baja">Menos activa de lo normal</option>
+        <option value="alta">Más activa de lo normal</option>
+    </select>
+
+    <label for="alimentacion">Alimentación</label>
+
+    <select id="alimentacion">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Comió normalmente</option>
+        <option value="baja">Comió menos de lo normal</option>
+        <option value="alta">Comió más de lo normal</option>
+    </select>
+
+    <label for="descanso">Descanso</label>
+
+    <select id="descanso">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Descansó normalmente</option>
+        <option value="baja">Descansó menos</option>
+        <option value="alta">Descansó más</option>
+    </select>
+
+    <button onclick="analizarHabitos()">
+        Analizar hábitos
+    </button>
+
+    <div id="resultado"></div>
+
+</div>
+
+<footer>
+    Pet Mind · Tecnología para cuidar mejor
+</footer>
+
+<script>
+
+function analizarHabitos() {
+
+    const nombre =
+        document.getElementById("nombre").value.trim();
+
+    const actividad =
+        document.getElementById("actividad").value;
+
+    const alimentacion =
+        document.getElementById("alimentacion").value;
+
+    const descanso =
+        document.getElementById("descanso").value;
+
+    const resultado =
+        document.getElementById("resultado");
+
+
+    if (
+        nombre === "" ||
+        actividad === "" ||
+        alimentacion === "" ||
+        descanso === ""
+    ) {
+
+        resultado.style.display = "block";
+
+        resultado.innerHTML =
+        "🐾 Por favor completa todos los datos de tu mascota.";
+
+        return;
+    }
+
+
+    let cambios = 0;
+
+
+    if (actividad !== "normal") {
+        cambios++;
+    }
+
+    if (alimentacion !== "normal") {
+        cambios++;
+    }
+
+    if (descanso !== "normal") {
+        cambios++;
+    }
+
+
+    let mensaje = "";
+
+
+    if (cambios === 0) {
+
+        mensaje = `
+        <strong>💚 Sin cambios importantes</strong>
+        <br><br>
+
+        Los hábitos registrados de ${nombre}
+        se encuentran dentro de lo habitual.
+
+        Continúa registrando su actividad,
+        alimentación y descanso.
+        `;
+
+    }
+
+
+    else if (cambios === 1) {
+
+        mensaje = `
+        <strong>💛 Cambio detectado</strong>
+        <br><br>
+
+        Pet Mind detectó un cambio en los hábitos
+        registrados de ${nombre}.
+
+        Te recomendamos observar su comportamiento
+        y continuar registrando sus hábitos.
+        `;
+
+    }
+
+
+    else {
+
+        mensaje = `
+        <strong>🧡 Alerta de Pet Mind</strong>
+        <br><br>
+
+        Se detectaron varios cambios importantes
+        en los hábitos registrados de ${nombre}.
+
+        Presta atención a su comportamiento.
+        Si los cambios continúan o te preocupan,
+        considera consultar con un profesional.
+        `;
+    }
+
+
+    resultado.style.display = "block";
+
+    resultado.innerHTML =
+        mensaje +
+        `
+        <div class="nota">
+        Pet Mind es una herramienta de apoyo
+        y no sustituye la evaluación de un veterinario.
+        </div>
+        `;
+}
+
+</script>
+
+</body>
+</html<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Mind</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f3ee;
+            color: #3f4946;
+        }
+
+        header {
+            background-color: #dce9e4;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .logo {
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 34px;
+            margin: 0;
+        }
+
+        .slogan {
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 35px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            font-family: Georgia, serif;
+            font-style: italic;
+        }
+
+        .descripcion {
+            text-align: center;
+            color: #69736f;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd7d3;
+            border-radius: 10px;
+            font-size: 15px;
+            background-color: #fafafa;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background-color: #7b9f94;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #668b80;
+        }
+
+        #resultado {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #edf4f1;
+            line-height: 1.6;
+        }
+
+        .nota {
+            font-size: 12px;
+            color: #707b77;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            color: #77817e;
+            font-size: 12px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1 class="logo">🐾 Pet Mind</h1>
+    <p class="slogan">Conecta · Cuida · Entiende</p>
+</header>
+
+<div class="container">
+
+    <h2>Monitorea a tu mascota</h2>
+
+    <p class="descripcion">
+        Registra sus hábitos diarios para identificar cambios importantes
+        en su bienestar.
+    </p>
+
+    <label for="nombre">Nombre de tu mascota</label>
+
+    <input
+        type="text"
+        id="nombre"
+        placeholder="Ej. Luna"
+    >
+
+    <label for="actividad">Actividad</label>
+
+    <select id="actividad">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Actividad normal</option>
+        <option value="baja">Menos activa de lo normal</option>
+        <option value="alta">Más activa de lo normal</option>
+    </select>
+
+    <label for="alimentacion">Alimentación</label>
+
+    <select id="alimentacion">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Comió normalmente</option>
+        <option value="baja">Comió menos de lo normal</option>
+        <option value="alta">Comió más de lo normal</option>
+    </select>
+
+    <label for="descanso">Descanso</label>
+
+    <select id="descanso">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Descansó normalmente</option>
+        <option value="baja">Descansó menos</option>
+        <option value="alta">Descansó más</option>
+    </select>
+
+    <button onclick="analizarHabitos()">
+        Analizar hábitos
+    </button>
+
+    <div id="resultado"></div>
+
+</div>
+
+<footer>
+    Pet Mind · Tecnología para cuidar mejor
+</footer>
+
+<script>
+
+function analizarHabitos() {
+
+    const nombre =
+        document.getElementById("nombre").value.trim();
+
+    const actividad =
+        document.getElementById("actividad").value;
+
+    const alimentacion =
+        document.getElementById("alimentacion").value;
+
+    const descanso =
+        document.getElementById("descanso").value;
+
+    const resultado =
+        document.getElementById("resultado");
+
+
+    if (
+        nombre === "" ||
+        actividad === "" ||
+        alimentacion === "" ||
+        descanso === ""
+    ) {
+
+        resultado.style.display = "block";
+
+        resultado.innerHTML =
+        "🐾 Por favor completa todos los datos de tu mascota.";
+
+        return;
+    }
+
+
+    let cambios = 0;
+
+
+    if (actividad !== "normal") {
+        cambios++;
+    }
+
+    if (alimentacion !== "normal") {
+        cambios++;
+    }
+
+    if (descanso !== "normal") {
+        cambios++;
+    }
+
+
+    let mensaje = "";
+
+
+    if (cambios === 0) {
+
+        mensaje = `
+        <strong>💚 Sin cambios importantes</strong>
+        <br><br>
+
+        Los hábitos registrados de ${nombre}
+        se encuentran dentro de lo habitual.
+
+        Continúa registrando su actividad,
+        alimentación y descanso.
+        `;
+
+    }
+
+
+    else if (cambios === 1) {
+
+        mensaje = `
+        <strong>💛 Cambio detectado</strong>
+        <br><br>
+
+        Pet Mind detectó un cambio en los hábitos
+        registrados de ${nombre}.
+
+        Te recomendamos observar su comportamiento
+        y continuar registrando sus hábitos.
+        `;
+
+    }
+
+
+    else {
+
+        mensaje = `
+        <strong>🧡 Alerta de Pet Mind</strong>
+        <br><br>
+
+        Se detectaron varios cambios importantes
+        en los hábitos registrados de ${nombre}.
+
+        Presta atención a su comportamiento.
+        Si los cambios continúan o te preocupan,
+        considera consultar con un profesional.
+        `;
+    }
+
+
+    resultado.style.display = "block";
+
+    resultado.innerHTML =
+        mensaje +
+        `
+        <div class="nota">
+        Pet Mind es una herramienta de apoyo
+        y no sustituye la evaluación de un veterinario.
+        </div>
+        `;
+}
+
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Mind</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f3ee;
+            color: #3f4946;
+        }
+
+        header {
+            background-color: #dce9e4;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .logo {
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 34px;
+            margin: 0;
+        }
+
+        .slogan {
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 35px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            font-family: Georgia, serif;
+            font-style: italic;
+        }
+
+        .descripcion {
+            text-align: center;
+            color: #69736f;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd7d3;
+            border-radius: 10px;
+            font-size: 15px;
+            background-color: #fafafa;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background-color: #7b9f94;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #668b80;
+        }
+
+        #resultado {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #edf4f1;
+            line-height: 1.6;
+        }
+
+        .nota {
+            font-size: 12px;
+            color: #707b77;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            color: #77817e;
+            font-size: 12px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1 class="logo">🐾 Pet Mind</h1>
+    <p class="slogan">Conecta · Cuida · Entiende</p>
+</header>
+
+<div class="container">
+
+    <h2>Monitorea a tu mascota</h2>
+
+    <p class="descripcion">
+        Registra sus hábitos diarios para identificar cambios importantes
+        en su bienestar.
+    </p>
+
+    <label for="nombre">Nombre de tu mascota</label>
+
+    <input
+        type="text"
+        id="nombre"
+        placeholder="Ej. Luna"
+    >
+
+    <label for="actividad">Actividad</label>
+
+    <select id="actividad">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Actividad normal</option>
+        <option value="baja">Menos activa de lo normal</option>
+        <option value="alta">Más activa de lo normal</option>
+    </select>
+
+    <label for="alimentacion">Alimentación</label>
+
+    <select id="alimentacion">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Comió normalmente</option>
+        <option value="baja">Comió menos de lo normal</option>
+        <option value="alta">Comió más de lo normal</option>
+    </select>
+
+    <label for="descanso">Descanso</label>
+
+    <select id="descanso">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Descansó normalmente</option>
+        <option value="baja">Descansó menos</option>
+        <option value="alta">Descansó más</option>
+    </select>
+
+    <button onclick="analizarHabitos()">
+        Analizar hábitos
+    </button>
+
+    <div id="resultado"></div>
+
+</div>
+
+<footer>
+    Pet Mind · Tecnología para cuidar mejor
+</footer>
+
+<script>
+
+function analizarHabitos() {
+
+    const nombre =
+        document.getElementById("nombre").value.trim();
+
+    const actividad =
+        document.getElementById("actividad").value;
+
+    const alimentacion =
+        document.getElementById("alimentacion").value;
+
+    const descanso =
+        document.getElementById("descanso").value;
+
+    const resultado =
+        document.getElementById("resultado");
+
+
+    if (
+        nombre === "" ||
+        actividad === "" ||
+        alimentacion === "" ||
+        descanso === ""
+    ) {
+
+        resultado.style.display = "block";
+
+        resultado.innerHTML =
+        "🐾 Por favor completa todos los datos de tu mascota.";
+
+        return;
+    }
+
+
+    let cambios = 0;
+
+
+    if (actividad !== "normal") {
+        cambios++;
+    }
+
+    if (alimentacion !== "normal") {
+        cambios++;
+    }
+
+    if (descanso !== "normal") {
+        cambios++;
+    }
+
+
+    let mensaje = "";
+
+
+    if (cambios === 0) {
+
+        mensaje = `
+        <strong>💚 Sin cambios importantes</strong>
+        <br><br>
+
+        Los hábitos registrados de ${nombre}
+        se encuentran dentro de lo habitual.
+
+        Continúa registrando su actividad,
+        alimentación y descanso.
+        `;
+
+    }
+
+
+    else if (cambios === 1) {
+
+        mensaje = `
+        <strong>💛 Cambio detectado</strong>
+        <br><br>
+
+        Pet Mind detectó un cambio en los hábitos
+        registrados de ${nombre}.
+
+        Te recomendamos observar su comportamiento
+        y continuar registrando sus hábitos.
+        `;
+
+    }
+
+
+    else {
+
+        mensaje = `
+        <strong>🧡 Alerta de Pet Mind</strong>
+        <br><br>
+
+        Se detectaron varios cambios importantes
+        en los hábitos registrados de ${nombre}.
+
+        Presta atención a su comportamiento.
+        Si los cambios continúan o te preocupan,
+        considera consultar con un profesional.
+        `;
+    }
+
+
+    resultado.style.display = "block";
+
+    resultado.innerHTML =
+        mensaje +
+        `
+        <div class="nota">
+        Pet Mind es una herramienta de apoyo
+        y no sustituye la evaluación de un veterinario.
+        </div>
+        `;
+}
+
+</script>
+
+</body>
+</html<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Mind</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f3ee;
+            color: #3f4946;
+        }
+
+        header {
+            background-color: #dce9e4;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .logo {
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 34px;
+            margin: 0;
+        }
+
+        .slogan {
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 35px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            font-family: Georgia, serif;
+            font-style: italic;
+        }
+
+        .descripcion {
+            text-align: center;
+            color: #69736f;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd7d3;
+            border-radius: 10px;
+            font-size: 15px;
+            background-color: #fafafa;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background-color: #7b9f94;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #668b80;
+        }
+
+        #resultado {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #edf4f1;
+            line-height: 1.6;
+        }
+
+        .nota {
+            font-size: 12px;
+            color: #707b77;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            color: #77817e;
+            font-size: 12px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1 class="logo">🐾 Pet Mind</h1>
+    <p class="slogan">Conecta · Cuida · Entiende</p>
+</header>
+
+<div class="container">
+
+    <h2>Monitorea a tu mascota</h2>
+
+    <p class="descripcion">
+        Registra sus hábitos diarios para identificar cambios importantes
+        en su bienestar.
+    </p>
+
+    <label for="nombre">Nombre de tu mascota</label>
+
+    <input
+        type="text"
+        id="nombre"
+        placeholder="Ej. Luna"
+    >
+
+    <label for="actividad">Actividad</label>
+
+    <select id="actividad">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Actividad normal</option>
+        <option value="baja">Menos activa de lo normal</option>
+        <option value="alta">Más activa de lo normal</option>
+    </select>
+
+    <label for="alimentacion">Alimentación</label>
+
+    <select id="alimentacion">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Comió normalmente</option>
+        <option value="baja">Comió menos de lo normal</option>
+        <option value="alta">Comió más de lo normal</option>
+    </select>
+
+    <label for="descanso">Descanso</label>
+
+    <select id="descanso">
+        <option value="">Selecciona una opción</option>
+        <option value="normal">Descansó normalmente</option>
+        <option value="baja">Descansó menos</option>
+        <option value="alta">Descansó más</option>
+    </select>
+
+    <button onclick="analizarHabitos()">
+        Analizar hábitos
+    </button>
+
+    <div id="resultado"></div>
+
+</div>
+
+<footer>
+    Pet Mind · Tecnología para cuidar y atender mejor a tu mascota.
+</footer>
+
+<script>
+
+function analizarHabitos() {
+
+    const nombre =
+        document.getElementById("nombre").value.trim();
+
+    const actividad =
+        document.getElementById("actividad").value;
+
+    const alimentacion =
+        document.getElementById("alimentacion").value;
+
+    const descanso =
+        document.getElementById("descanso").value;
+
+    const resultado =
+        document.getElementById("resultado");
+
+
+    if (
+        nombre === "" ||
+        actividad === "" ||
+        alimentacion === "" ||
+        descanso === ""
+    ) {
+
+        resultado.style.display = "block";
+
+        resultado.innerHTML =
+        "🐾 Por favor completa todos los datos de tu mascota.";
+
+        return;
+    }
+
+
+    let cambios = 0;
+
+
+    if (actividad !== "normal") {
+        cambios++;
+    }
+
+    if (alimentacion !== "normal") {
+        cambios++;
+    }
+
+    if (descanso !== "normal") {
+        cambios++;
+    }
+
+
+    let mensaje = "";
+
+
+    if (cambios === 0) {
+
+        mensaje = `
+        <strong>💚 Sin cambios importantes</strong>
+        <br><br>
+
+        Los hábitos registrados de ${nombre}
+        se encuentra de lo habitual, tu mascota está en buen estado.
+
+        Continúa registrando su actividad,
+        alimentación y descanso, para mantener un seguimiento de su bienestar.
+        `;
+
+    }
+
+
+    else if (cambios === 1) {
+
+        mensaje = `
+        <strong>💛 Cambio detectado</strong>
+        <br><br>
+
+        Pet Mind detectó un cambio nuevo en los hábitos
+        registrados de ${nombre}.
+
+        Te recomendamos observar su comportamiento
+        y continuar registrando sus hábitos para estar seguros.
+        `;
+
+    }
+
+
+    else {
+
+        mensaje = `
+        <strong>🧡 Alerta de Pet Mind</strong>
+        <br><br>
+
+        Se detectaron varios cambios importantes
+        en los hábitos registrados de ${nombre}.
+
+        Presta atención a su comportamiento.
+        Si los cambios continúan o te preocupan,
+        considera consultar con un profesional veterinario.
+        `;
+    }
+
+
+    resultado.style.display = "block";
+
+    resultado.innerHTML =
+        mensaje +
+        `
+        <div class="nota">
+        Pet Mind es una herramienta de apoyo
+        y no sustituye la evaluación de un veterinario.
+        </div>
+        `;
+}
+
+</script>
+
+</body>
+</html>
